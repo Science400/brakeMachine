@@ -3,11 +3,18 @@
 
 // --- Pin Definitions ---
 // RS-232 to Rice Lake 920i (via MAX3232 level shifter)
+// Pins set via platformio.ini build_flags per board:
+//   Super Mini:  RX=20, TX=21, LED=8
+//   DevKit C:    RX=16, TX=17, LED=2
+#ifndef RS232_RX_PIN
 #define RS232_RX_PIN 20
+#endif
+#ifndef RS232_TX_PIN
 #define RS232_TX_PIN 21
-
-// Status LED
-#define STATUS_LED_PIN LED_BUILTIN  // GPIO8 on Super Mini
+#endif
+#ifndef STATUS_LED_PIN
+#define STATUS_LED_PIN 8
+#endif
 
 // --- Serial Configuration (920i) ---
 // Port 1: 9600 8N1 CR/LF
@@ -37,8 +44,8 @@
 
 // NTP server
 #define NTP_SERVER "pool.ntp.org"
-// UTC offset in seconds (US Central = -6h = -21600, adjust via web UI)
-#define DEFAULT_UTC_OFFSET -21600
+// UTC offset in seconds (US Mountain = -7h = -25200)
+#define DEFAULT_UTC_OFFSET -25200
 #define DEFAULT_DST_OFFSET 3600
 
 // --- HTTP Upload ---

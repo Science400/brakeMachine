@@ -80,7 +80,20 @@ void DataUploader::submitDump(const String& data, size_t length, const String& t
         return;
     }
 
-    if (_attemptUpload(data, timestamp, id)) {
+    // Try up to 3 times immediately before queuing
+    bool uploaded = false;
+    for (int attempt = 1; attempt <= 3; attempt++) {
+        if (_attemptUpload(data, timestamp, id)) {
+            uploaded = true;
+            break;
+        }
+        if (attempt < 3) {
+            Serial.printf("[Uploader] Dump #%u attempt %d failed, retrying...\n", id, attempt);
+            delay(500);
+        }
+    }
+
+    if (uploaded) {
         _lastDump.uploaded = true;
         _stats.totalSuccess++;
         _stats.lastUploadTime = timestamp;
@@ -89,7 +102,7 @@ void DataUploader::submitDump(const String& data, size_t length, const String& t
         _stats.totalFailed++;
         _saveToDisk(data, id, timestamp);
         _stats.queueDepth = _countQueue();
-        Serial.printf("[Uploader] Dump #%u queued (upload failed)\n", id);
+        Serial.printf("[Uploader] Dump #%u queued after 3 attempts\n", id);
     }
 }
 

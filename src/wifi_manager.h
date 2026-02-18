@@ -61,6 +61,9 @@ private:
 
     void _startAP();
     void _startSTA();
+    void _retrySTA();
+    void _startAPSTA();
+    void _scanNetworks();
     void _initNTP();
     void _updateLED();
 };
