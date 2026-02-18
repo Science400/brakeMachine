@@ -45,6 +45,10 @@
 #define UPLOAD_ENDPOINT "/upload"
 #define UPLOAD_TIMEOUT_MS 10000
 #define MAX_QUEUED_DUMPS 10
+#define DEFAULT_RECEIVER_URL ""  // Empty — must configure via web dashboard
+#define QUEUE_DIR "/queue"
+#define UPLOAD_RETRY_INTERVAL_MS 30000
+#define DUMP_PREVIEW_LINES 3
 
 // --- Web Server ---
 #define WEB_SERVER_PORT 80
